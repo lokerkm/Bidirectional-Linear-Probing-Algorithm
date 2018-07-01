@@ -50,18 +50,16 @@ public class Hash {
         int controleBidirecional = 2;
         int posicao = chave % this.mod;
         int proximaPosicao = posicao;
-
+        
+        //proximaPosicao = this.getProximaPosicao(proximaPosicao); se o tamanho do mapahash nao suportar o todos os mods possiveis?
         if (this.mapa[posicao] != null) {
             while (true) {
-                proximaPosicao += ((cont * this.incremento) * (int) Math.pow(-1, controleBidirecional));
-                while (proximaPosicao < 0 || proximaPosicao > mapa.length) {
-                    if (proximaPosicao < 0) {
-                        proximaPosicao = mapa.length + proximaPosicao;
-                    }
-                    if (proximaPosicao > mapa.length) {
-                        proximaPosicao = 0 + (mapa.length - proximaPosicao);
-                    }
+                if (cont == this.tamanhoMapa) {
+                    System.out.println("Mapa cheio!");
+                    return;
                 }
+                proximaPosicao += ((cont * this.incremento) * (int) Math.pow(-1, controleBidirecional));
+                proximaPosicao = this.getProximaPosicao(proximaPosicao);
                 if (mapa[proximaPosicao] == null) {
                     posicao = proximaPosicao;
                     break;
@@ -72,6 +70,49 @@ public class Hash {
         }
         this.mapa[posicao] = chave;
 
+    }
+
+    public boolean buscaChave(int chave) {
+        int cont = 1;
+        int controleBidirecional = 2;
+        int posicao = chave % this.mod;
+        int proximaPosicao = posicao;
+
+        if ((int) this.mapa[posicao] == chave) {
+            return true;
+        }
+        if (this.mapa[posicao] == null) {
+            return false;
+        }
+        if (this.mapa[posicao] != null) {
+            while (true) {
+                if (cont == this.tamanhoMapa) {
+                    return false;
+                }
+                proximaPosicao += ((cont * this.incremento) * (int) Math.pow(-1, controleBidirecional));
+                proximaPosicao = this.getProximaPosicao(proximaPosicao);
+                if ((int) mapa[proximaPosicao] == chave) {
+                    return true;
+                }
+                cont++;
+                controleBidirecional++;
+            }
+        } else {
+            return false;
+        }
+
+    }
+    
+    public int getProximaPosicao(int proximaPosicao){
+            while (proximaPosicao < 0 || proximaPosicao >= mapa.length) {
+                    if (proximaPosicao < 0) {
+                        proximaPosicao = mapa.length + proximaPosicao;
+                    }
+                    if (proximaPosicao >= mapa.length) {
+                        proximaPosicao = Math.abs(0 + (mapa.length - proximaPosicao));
+                    }
+                }
+        return proximaPosicao;
     }
 
 }

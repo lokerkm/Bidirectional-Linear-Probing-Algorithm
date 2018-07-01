@@ -37,13 +37,22 @@ public class Main {
                 chave = ler.nextInt();
                 hash.insereChave(chave);
             }
+            if (menu == 3) {
+                System.out.printf("\nInforme uma chave para ser buscada: ");
+                chave = ler.nextInt();
+                if(hash.buscaChave(chave)){
+                    System.out.println("\nChave encontrada!");
+                }else{
+                    System.out.println("\nChave nao encontrada!");
+                }
+            }
             if (menu == 5) {
                 Object mapa[] = hash.getMapa();
                 for (int i = 0; i < mapa.length; i++) {
                     //System.out.println("");
                     System.out.println(i + "-->" + mapa[i]);
                 }
-                System.out.println(mapa.length);
+                
             }
 
         }
