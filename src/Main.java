@@ -13,18 +13,16 @@ public class Main {
         Scanner ler = new Scanner(System.in);
         System.out.printf("Informe o tamanho do mapa: ");
         tamanhoMapa = ler.nextInt();
-        System.out.printf("Informe o mod: ");
-        mod = ler.nextInt();
         System.out.printf("Informe o imcremento: ");
         incremento = ler.nextInt();
-        Hash hash = new Hash(tamanhoMapa, mod, incremento);
+        Hash hash = new Hash(tamanhoMapa, incremento);
         System.out.printf("\n**************Menu**************");
         System.out.printf("\n1 - Encerrar");
         System.out.printf("\n2 - Inserir chave");
         System.out.printf("\n3 - Buscar chave");
         System.out.printf("\n4 - Remover chave");
         System.out.printf("\n5 - Imprimir mapa");
-
+        System.out.printf("\n********************************");
         while (menu != 1) {
             System.out.printf("\nInforme a operação: ");
             menu = ler.nextInt();
@@ -40,10 +38,20 @@ public class Main {
             if (menu == 3) {
                 System.out.printf("\nInforme uma chave para ser buscada: ");
                 chave = ler.nextInt();
-                if(hash.buscaChave(chave)){
-                    System.out.println("\nChave encontrada!");
-                }else{
+                if(hash.buscaChave(chave) == null){
                     System.out.println("\nChave nao encontrada!");
+                }else{
+                    System.out.println("\nChave na posição "+ hash.buscaChave(chave) +".");
+                }
+            }
+            if (menu == 4) {
+                System.out.printf("\nInforme uma chave para removida: ");
+                chave = ler.nextInt();
+                if(hash.buscaChave(chave) == null){
+                    System.out.println("\nChave nao encontrada!");
+                }else{
+                    hash.removeChave(chave);
+                    System.out.println("\nChave removida ");
                 }
             }
             if (menu == 5) {
