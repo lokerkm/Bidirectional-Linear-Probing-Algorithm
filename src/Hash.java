@@ -4,7 +4,7 @@ public class Hash {
     private int tamanhoMapa;
     private Object mapa[];
     private int incremento;
-    private int controleBidirecional = 2;
+    //private int controleBidirecional = 2;
 
     public Hash(int tamanhoMapa, int imcremento) {
         this.tamanhoMapa = tamanhoMapa;
@@ -41,17 +41,17 @@ public class Hash {
         int controleBidirecional = 2;
         int posicao = chave % this.tamanhoMapa;
         int proximaPosicao = posicao;
-        
-        if(this.buscaChave(chave) != null){
+
+        if (this.buscaChave(chave) != null) {
             return;
         }
         if (this.mapa[posicao] != null) {
             while (true) {
-                if (cont == this.tamanhoMapa) {
-                    System.out.println("Mapa cheio!");
-                    return;
-                }
-                proximaPosicao = this.getProximaPosicao(proximaPosicao,cont);
+//                if (cont == this.tamanhoMapa) {
+//                    System.out.println("Mapa cheio!");
+//                    return;
+//                }
+                proximaPosicao = this.getProximaPosicao(proximaPosicao, cont, controleBidirecional);
                 if (mapa[proximaPosicao] == null) {
                     posicao = proximaPosicao;
                     break;
@@ -76,21 +76,21 @@ public class Hash {
         if ((int) this.mapa[posicao] == chave) {
             return posicao;
         }
-        
+
         if (this.mapa[posicao] != null) {
             while (true) {
                 if (cont == this.tamanhoMapa) {
                     return null;
                 }
-                
-                proximaPosicao = this.getProximaPosicao(proximaPosicao,cont);
-                if ( mapa[proximaPosicao] == null) {
+
+                proximaPosicao = this.getProximaPosicao(proximaPosicao, cont, controleBidirecional);
+                if (mapa[proximaPosicao] == null) {
                     return null;
                 }
                 if ((int) mapa[proximaPosicao] == chave) {
                     return proximaPosicao;
                 }
-                
+
                 cont++;
                 controleBidirecional++;
             }
@@ -99,77 +99,73 @@ public class Hash {
         }
 
     }
-    
-    public int getProximaPosicao(int proximaPosicao, int cont){
-        proximaPosicao += ((cont * this.incremento) * (int) Math.pow(-1, this.controleBidirecional));
-            while (proximaPosicao < 0 || proximaPosicao >= mapa.length) {
-                    if (proximaPosicao < 0) {
-                        proximaPosicao = mapa.length + proximaPosicao;
-                    }
-                    if (proximaPosicao >= mapa.length) {
-                        proximaPosicao = Math.abs(0 + (mapa.length - proximaPosicao));
-                    }
-                }
+
+    public int getProximaPosicao(int proximaPosicao, int cont, int controleBidirecional) {
+        proximaPosicao += ((cont * this.incremento) * (int) Math.pow(-1, controleBidirecional));
+        while (proximaPosicao < 0 || proximaPosicao >= mapa.length) {
+            if (proximaPosicao < 0) {
+                proximaPosicao = mapa.length + proximaPosicao;
+            }
+            if (proximaPosicao >= mapa.length) {
+                proximaPosicao = Math.abs(0 + (mapa.length - proximaPosicao));
+            }
+        }
         return proximaPosicao;
     }
 
-    void removeChave(int chave){
+    void removeChave(int chave) {
         int cont = 1;
         int controleBidirecional = 2;
-        if(this.buscaChave(chave) == null){
+        if (this.buscaChave(chave) == null) {
             return;
         }
         int posicao = this.buscaChave(chave);
         this.mapa[posicao] = null;
         int posicaoAnterior = chave % tamanhoMapa;
-        posicao = this.getProximaPosicao(posicaoAnterior, cont);
+        posicao = this.getProximaPosicao(posicaoAnterior, cont, controleBidirecional);
         cont++;
-        int proximaPosicao = this.getProximaPosicao(posicao,cont);
+        controleBidirecional++;
+        int proximaPosicao = this.getProximaPosicao(posicao, cont, controleBidirecional);
         cont++;
+        controleBidirecional++;
+
 //        if(this.mapa[posicao] == null){
 //         return;
 //        }
-        
-        if(this.mapa[posicaoAnterior] == null && posicao != (int) this.mapa[posicao] % this.tamanhoMapa){
+        if (this.mapa[posicaoAnterior] == null && posicao != (int) this.mapa[posicao] % this.tamanhoMapa) {
             this.mapa[posicaoAnterior] = (int) this.mapa[posicao];
             this.mapa[posicao] = null;
         }
 
-        
-         if (this.mapa[proximaPosicao] != null) {
+        if (this.mapa[proximaPosicao] != null) {
 //            posicaoAnterior = proximaPosicao;
 //            proximaPosicao = this.getProximaPosicao(proximaPosicao);
             while (true) {
 //                if (cont == this.tamanhoMapa) { nao vai precisar, pq ja procura a chave antes
 //                    return null;
 //                }
-                
-                if(proximaPosicao != (int) this.mapa[proximaPosicao] % this.tamanhoMapa && this.mapa[posicao] == null){
-                    this.mapa[posicao] =(int) this.mapa[proximaPosicao];
+
+                if (proximaPosicao != (int) this.mapa[proximaPosicao] % this.tamanhoMapa && this.mapa[posicao] == null) {
+                    this.mapa[posicao] = (int) this.mapa[proximaPosicao];
                     this.mapa[proximaPosicao] = null;
                 }
                 posicaoAnterior = posicao;
                 posicao = proximaPosicao;
-                proximaPosicao = this.getProximaPosicao(proximaPosicao, cont);
-                
-                
-                
-                
-                if(this.mapa[proximaPosicao] == null){
-                return;
+                proximaPosicao = this.getProximaPosicao(proximaPosicao, cont, controleBidirecional);
+
+                if (this.mapa[proximaPosicao] == null) {
+                    return;
                 }
-                
+
                 cont++;
                 controleBidirecional++;
             }
         } else {
-           return;
+            return;
         }
-        
-        
-        
+
     }
-    
+
 //    public boolean confirmaPosicao(int chave, int posicao){
 //        if(posicao == (int) this.mapa[posicao] % this.tamanhoMapa)
 //    }
