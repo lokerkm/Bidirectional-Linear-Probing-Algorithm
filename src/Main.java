@@ -17,7 +17,6 @@ public class Main {
         incremento = ler.nextInt();
         Hash hash = new Hash(tamanhoMapa, incremento);
         System.out.printf("\n**************Menu**************");
-        System.out.printf("\n1 - Encerrar");
         System.out.printf("\n2 - Inserir chave");
         System.out.printf("\n3 - Buscar chave");
         System.out.printf("\n4 - Remover chave");
@@ -26,10 +25,6 @@ public class Main {
         while (menu != 1) {
             System.out.printf("\nInforme a operação: ");
             menu = ler.nextInt();
-            if (menu == 1) {
-                System.out.println("\nPrograma encerrado!");
-                break;
-            }
             if (menu == 2) {
                 System.out.printf("\nInforme uma chave para ser inserida: ");
                 chave = ler.nextInt();
@@ -50,7 +45,7 @@ public class Main {
                 if(hash.buscaChave(chave) == null){
                     System.out.println("\nChave nao encontrada!");
                 }else{
-                    hash.removeChave(chave);
+                    hash.removeChaveReinsercao(chave);
                     System.out.println("\nChave removida ");
                 }
             }
